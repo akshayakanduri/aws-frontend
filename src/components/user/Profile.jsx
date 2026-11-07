@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./profile.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../../api";
 import Navbar from "../Navbar";
+import "./profile.css";
 // import { UnderlineNav } from "@primer/react";
-import { BookIcon, RepoIcon } from "@primer/octicons-react";
-import HeatMapProfile from "./HeatMap";
 import { useAuth } from "../../authContext";
+import HeatMapProfile from "./HeatMap";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -20,7 +20,12 @@ const Profile = () => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3002/userProfile/${userId}`
+            `${API_BASE_URL}/userProfile/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            }
           );
           setUserDetails(response.data);
         } catch (err) {

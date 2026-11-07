@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import "./dashboard.css";
+import { useEffect, useState } from "react";
+import API_BASE_URL from "../../api";
 import Navbar from "../Navbar";
+import "./dashboard.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3002";
 
 const Dashboard = () => {
     const [repositories, setRepositories] = useState([]);
@@ -22,7 +21,12 @@ const Dashboard = () => {
 
             try {
                 const response = await fetch(
-                    `${API_URL}/repo/user/${userId}`
+                    `${API_BASE_URL}/repo/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    }
                 );
 
                 if (!response.ok) {
@@ -45,7 +49,7 @@ const Dashboard = () => {
 
         const fetchSuggestedRepositories = async () => {
             try {
-                const response = await fetch(`${API_URL}/repo/all`);
+                const response = await fetch(`${API_BASE_URL}/repo/all`);
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch suggested repositories");

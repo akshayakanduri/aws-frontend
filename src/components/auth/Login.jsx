@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useState } from "react";
+import API_BASE_URL from "../../api";
 import { useAuth } from "../../authContext";
 
-import { PageHeader } from "@primer/react/drafts";
 import { Box, Button } from "@primer/react";
+import { PageHeader } from "@primer/react/drafts";
 import "./auth.css";
 
-import logo from "../../assets/github-mark-white.svg";
 import { Link } from "react-router-dom";
+import logo from "../../assets/github-mark-white.svg";
 
 const Login = () => {
   // useEffect(() => {
@@ -26,7 +27,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3002/login", {
+      const res = await axios.post(`${API_BASE_URL}/login`, {
         email: email,
         password: password,
       });
